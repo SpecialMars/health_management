@@ -1,5 +1,6 @@
 package com.mars.dao;
 
+import com.github.pagehelper.Page;
 import com.mars.pojo.CheckItem;
 
 /**
@@ -13,4 +14,6 @@ import com.mars.pojo.CheckItem;
 public interface CheckItemDao {
 
     public void add(CheckItem checkItem);
+
+    public Page<CheckItem> selectByCondition(String queryString);
 }

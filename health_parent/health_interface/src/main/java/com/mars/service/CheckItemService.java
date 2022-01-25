@@ -1,5 +1,7 @@
 package com.mars.service;
 
+import com.mars.entity.PageResult;
+import com.mars.entity.QueryPageBean;
 import com.mars.pojo.CheckItem;
 
 /**
@@ -13,4 +15,6 @@ import com.mars.pojo.CheckItem;
 public interface CheckItemService {
 
     public void add(CheckItem checkItem);
+
+    public PageResult pageQuery(QueryPageBean queryPageBean);
 }
