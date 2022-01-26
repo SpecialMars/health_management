@@ -234,8 +234,36 @@
             this.findPage(); // VUE对象初始化完成后调用分页查询方法，完成分页查询
         },
         methods: {
-            //编辑
+
+            //编辑表单中的确定按钮
             handleEdit() {
+                // 表单检验
+                this.$refs['dataEditForm'].validate((valid) => {
+                    if (valid) {
+                        // 表单验证通过，执行ajax请求
+                        axios.post("/checkitem/edit.do",this.formData).then((res) => {
+                            //隐藏编辑窗口
+                            this.dialogFormVisible4Edit = false;
+
+                            if (res.data.flag) {
+                                this.$message({
+                                    type: "success",
+                                    message: res.data.message
+                                });
+                            } else {
+                                // 编辑失败，弹出错误信息
+                                this.$message.error(res.data.message);
+                            }
+                        }).finally(() => {
+                            // 重新发送请求分页数据
+                            this.findPage();
+                        });
+                    } else {
+                        //表单校验失败，发送错误信息
+                        this.$message.error("表单数据校验失败");
+                        return false;
+                    }
+                });
             },
 
             //添加
@@ -291,14 +319,26 @@
             resetForm() {
                 this.formData = {}; // 重置数据
             },
+
             // 弹出添加窗口
             handleCreate() {
                 this.resetForm();
                 this.dialogFormVisible = true;
             },
+
             // 弹出编辑窗口
             handleUpdate(row) {
-                this.dialogFormVisible4Edit = true;
+                // 发送请求获取检查项信息
+                axios.post("/checkitem/findById.do?id=" + row.id).then((res) => {
+                    if (res.data.flag) {
+                        // 弹出编辑表单
+                        this.dialogFormVisible4Edit = true;
+                        // 进行数据回显
+                        this.formData = res.data.data;
+                    } else {
+                        this.$message.error("获取数据失败，请刷新当前页面");
+                    }
+                });
             },
 
             //切换页码

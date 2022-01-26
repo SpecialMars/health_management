@@ -63,7 +63,11 @@ public class CheckItemServiceImpl implements CheckItemService{
         return new PageResult(total,rows);
     }
 
-
+    /**
+     * 根据id删除元素
+     *
+     * @param id
+     */
     @Override
     public void deleteById(Integer id) {
         // 检查当前检查项是否和检查组有关联
@@ -73,5 +77,26 @@ public class CheckItemServiceImpl implements CheckItemService{
             new RuntimeException();
         }
         checkItemDao.deleteById(id);
+    }
+
+    /**
+     * 根据id获取检查项信息
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+    /**
+     * 编辑检查项方法
+     *
+     * @param checkItem
+     */
+    @Override
+    public void edit(CheckItem checkItem) {
+        checkItemDao.edit(checkItem);
     }
 }
