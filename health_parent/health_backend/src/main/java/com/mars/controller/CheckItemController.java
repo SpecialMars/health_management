@@ -61,4 +61,15 @@ public class CheckItemController {
     }
 
 
+    @RequestMapping("/delete")
+    public Result delete(Integer id){
+        try {
+            checkItemService.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return new Result(true,MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
 }
