@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * ClassName:CheckitemController
  * Package:com.mars.controller
@@ -88,11 +90,11 @@ public class CheckItemController {
 
         try {
             CheckItem checkItem = checkItemService.findById(id);
-            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkItem);
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
 
         }catch (Exception e){
             e.printStackTrace();
-            return new Result(false,MessageConstant.QUERY_CHECKGROUP_FAIL);
+            return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
         }
     }
 
@@ -108,8 +110,21 @@ public class CheckItemController {
             checkItemService.edit(checkItem);
         }catch (Exception e){
             e.printStackTrace();
-            return new Result(false,MessageConstant.EDIT_CHECKGROUP_FAIL);
+            return new Result(false,MessageConstant.EDIT_CHECKITEM_FAIL);
         }
-        return new Result(true,MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll() {
+
+        try {
+            List<CheckItem> checkItemList = checkItemService.findAll();
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkItemList);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
     }
 }

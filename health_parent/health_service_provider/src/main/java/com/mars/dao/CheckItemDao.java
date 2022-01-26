@@ -3,6 +3,8 @@ package com.mars.dao;
 import com.github.pagehelper.Page;
 import com.mars.pojo.CheckItem;
 
+import java.util.List;
+
 /**
  * ClassName:CheckitemDao
  * Package:com.mars.dao
@@ -24,4 +26,6 @@ public interface CheckItemDao {
     public CheckItem findById(Integer id);
 
     public void edit(CheckItem checkItem);
+
+    public List<CheckItem> findAll();
 }

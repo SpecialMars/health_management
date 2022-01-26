@@ -4,6 +4,8 @@ import com.mars.entity.PageResult;
 import com.mars.entity.QueryPageBean;
 import com.mars.pojo.CheckItem;
 
+import java.util.List;
+
 /**
  * ClassName:CheckItemService
  * Package:com.mars.service
@@ -23,4 +25,6 @@ public interface CheckItemService {
     public CheckItem findById(Integer id);
 
     public void edit(CheckItem checkItem);
+
+    public List<CheckItem> findAll();
 }

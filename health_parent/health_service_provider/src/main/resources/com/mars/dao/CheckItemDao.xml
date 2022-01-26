@@ -32,6 +32,7 @@
         select * from t_checkitem where id = #{id}
     </select>
 
+    <!--编辑检查项数据-->
     <update id="edit" parameterType="com.mars.pojo.CheckItem">
         update t_checkitem
         <set>
@@ -63,4 +64,8 @@
         where id = #{id}
     </update>
 
+    <!--查询所有检查项-->
+    <select id="findAll" resultType="com.mars.pojo.CheckItem">
+        select * from t_checkitem
+    </select>
 </mapper>

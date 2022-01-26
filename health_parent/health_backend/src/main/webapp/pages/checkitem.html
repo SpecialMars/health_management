@@ -235,7 +235,7 @@
         },
         methods: {
 
-            //编辑表单中的确定按钮
+            // 编辑表单中的确定按钮
             handleEdit() {
                 // 表单检验
                 this.$refs['dataEditForm'].validate((valid) => {
@@ -266,7 +266,7 @@
                 });
             },
 
-            //添加
+            // 添加
             handleAdd() {
                 // 判断数据是否校验成功，如果校验成功发送ajax请求
                 this.$refs['dataAddForm'].validate((valid) => {
@@ -297,7 +297,7 @@
                 });
             },
 
-            //分页查询
+            // 分页查询
             findPage() {
                 // 发送ajax请求，提交分页相关请求参数（页码、每页显示记录数、查询条件）
                 //分页参数
@@ -341,7 +341,7 @@
                 });
             },
 
-            //切换页码
+            // 切换页码
             handleCurrentChange(currentPage) {
                 // 设置最新的页码
                 this.pagination.currentPage = currentPage;
