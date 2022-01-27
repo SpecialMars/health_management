@@ -82,27 +82,40 @@ public class CheckGroupController {
     }
 
     @RequestMapping("/edit")
-    public Result edit(@RequestBody CheckGroup checkGroup,Integer[] checkitemIds){
+    public Result edit(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
 
         try {
-            checkGroupService.edit(checkGroup,checkitemIds);
-        }catch (Exception e){
+            checkGroupService.edit(checkGroup, checkitemIds);
+        } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,MessageConstant.EDIT_CHECKGROUP_FAIL);
+            return new Result(false, MessageConstant.EDIT_CHECKGROUP_FAIL);
         }
 
-        return new Result(true,MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+        return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
     }
 
     @RequestMapping("/delete")
-    public Result deleteById(Integer id){
+    public Result deleteById(Integer id) {
         try {
             checkGroupService.deleteById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,MessageConstant.DELETE_CHECKGROUP_FAIL);
+            return new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
 
-        return new Result(true,MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+        return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll() {
+
+        List<CheckGroup> checkGroupList = checkGroupService.findAll();
+        if (checkGroupList != null && checkGroupList.size() > 0) {
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS, checkGroupList);
+
+        } else {
+            return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+
     }
 }

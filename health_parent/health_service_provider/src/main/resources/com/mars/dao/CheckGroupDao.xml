@@ -15,7 +15,7 @@
 
     <insert id="setCheckGroupAndCheckItem" parameterType="java.util.Map">
         insert into t_checkgroup_checkitem(checkgroup_id, checkitem_id)
-        VALUES (#{checkgroup_id},#{checkitem_id})
+        VALUES (#{checkgroup_id}, #{checkitem_id})
     </insert>
 
     <select id="selectByCondition" parameterType="string" resultType="com.mars.pojo.CheckGroup">
@@ -36,6 +36,7 @@
         from t_checkgroup_checkitem
         where checkgroup_id = #{id}
     </select>
+
 
     <update id="edit" parameterType="com.mars.pojo.CheckGroup">
         update t_checkgroup
@@ -63,14 +64,26 @@
     </update>
 
     <delete id="deleteAssociation" parameterType="int">
-        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+        delete
+        from t_checkgroup_checkitem
+        where checkgroup_id = #{id}
     </delete>
 
     <delete id="deleteById" parameterType="int">
-        delete from t_checkgroup where id = #{id}
+        delete
+        from t_checkgroup
+        where id = #{id}
     </delete>
+
     <delete id="deleteCheckGroupAndCheckItemById" parameterType="int">
-        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+        delete
+        from t_checkgroup_checkitem
+        where checkgroup_id = #{id}
     </delete>
+
+    <select id="findAll" resultType="com.mars.pojo.CheckGroup">
+        select *
+        from t_checkgroup
+    </select>
 
 </mapper>
