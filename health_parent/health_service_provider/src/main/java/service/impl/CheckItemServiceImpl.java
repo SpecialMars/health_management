@@ -17,12 +17,13 @@ import java.util.List;
  * ClassName:CheckItemServiceImpl
  * Package:service.impl
  * Description:检查项管理
+ *
  * @Date:2022/1/24 10:27
  * @Author:Mars
  */
 @Service(interfaceClass = CheckItemService.class)
 @Transactional
-public class CheckItemServiceImpl implements CheckItemService{
+public class CheckItemServiceImpl implements CheckItemService {
 
     // 注入Dao
     @Autowired
@@ -30,6 +31,7 @@ public class CheckItemServiceImpl implements CheckItemService{
 
     /**
      * 添加检查项
+     *
      * @param checkItem
      */
     @Override
@@ -39,6 +41,7 @@ public class CheckItemServiceImpl implements CheckItemService{
 
     /**
      * 分页查询
+     *
      * @param queryPageBean
      * @return
      */
@@ -52,7 +55,7 @@ public class CheckItemServiceImpl implements CheckItemService{
         String queryString = queryPageBean.getQueryString();
 
         // 完成分页查询，通过mybatis框架提供的分页助手插件完成
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
 
         // 调用dao中的selectByConfition方法获取到条件查询的值
         Page<CheckItem> page = checkItemDao.selectByCondition(queryString);
@@ -60,7 +63,7 @@ public class CheckItemServiceImpl implements CheckItemService{
         long total = page.getTotal();
         List<CheckItem> rows = page.getResult();
 
-        return new PageResult(total,rows);
+        return new PageResult(total, rows);
     }
 
     /**
@@ -72,9 +75,9 @@ public class CheckItemServiceImpl implements CheckItemService{
     public void deleteById(Integer id) {
         // 检查当前检查项是否和检查组有关联
         long count = checkItemDao.findCountByCheckItemId(id);
-        if(count > 0){
+        if (count > 0) {
             // 说明有检查项被检查组关联，不能被删除
-            new RuntimeException();
+            throw new RuntimeException();
         }
         checkItemDao.deleteById(id);
     }
