@@ -40,17 +40,19 @@ public class SetmealServiceImpl implements SetmealService {
         // 向t_setmeal表中添加套餐
         setmealDao.add(setmeal);
 
-        if(checkgroupIds != null && checkgroupIds.length > 0){
+        if (checkgroupIds != null && checkgroupIds.length > 0) {
             // 绑定套餐和检查组的多对多关系
-            setSetmealAndCheckGroup(setmeal.getId(),checkgroupIds);
+            setSetmealAndCheckGroup(setmeal.getId(), checkgroupIds);
         }
-        //将图片名称保存到Redis
-        savePic2Redis(setmeal.getImg());
+        if (setmeal.getImg() != null) {
+            //将图片名称保存到Redis
+            savePic2Redis(setmeal.getImg());
+        }
     }
 
     //将图片名称保存到Redis
-    private void savePic2Redis(String pic){
-        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,pic);
+    private void savePic2Redis(String pic) {
+        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, pic);
     }
 
     //绑定套餐和检查组的多对多关系
@@ -74,5 +76,40 @@ public class SetmealServiceImpl implements SetmealService {
         List<Setmeal> rows = page.getResult();
 
         return new PageResult(total, rows);
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        return setmealDao.findById(id);
+    }
+
+    @Override
+    public List<Integer> findCheckGroupIdsBysetmealId(Integer id) {
+        return setmealDao.findCheckGroupIdsBysetmealId(id);
+    }
+
+    @Override
+    public void edit(Setmeal setmeal, Integer[] checkGroupIds) {
+
+        // 根据套餐id删除检查组id，删除中间数据（清除原有关联）
+        setmealDao.deleteAssociation(setmeal.getId());
+
+        // 向中间表(t_setmeal_checkgroup)插入数据（建立套餐和检查组的关联关系）
+        if (checkGroupIds != null && checkGroupIds.length > 0) {
+            for (Integer checkGroupId : checkGroupIds) {
+                Map<String, Integer> map = new HashMap<>();
+                map.put("setmealId", setmeal.getId());
+                map.put("checkgroupId", checkGroupId);
+                setmealDao.setSetmealAndCheckGroups(map);
+            }
+        }
+        //
+        setmealDao.edit(setmeal);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        setmealDao.deleteCheckGroupBySetemalId(id);
+        setmealDao.deleteById(id);
     }
 }
