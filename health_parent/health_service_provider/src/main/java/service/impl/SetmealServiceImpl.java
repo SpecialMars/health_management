@@ -85,7 +85,7 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public List<Integer> findCheckGroupIdsBysetmealId(Integer id) {
-        return setmealDao.findCheckGroupIdsBysetmealId(id);
+        return setmealDao.findCheckGroupIdsBySetmealId(id);
     }
 
     @Override
@@ -109,7 +109,17 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public void deleteById(Integer id) {
-        setmealDao.deleteCheckGroupBySetemalId(id);
+        setmealDao.deleteCheckGroupBySetmealId(id);
         setmealDao.deleteById(id);
+    }
+
+    @Override
+    public List<Setmeal> getSetmeal() {
+        return setmealDao.getSetmeal();
+    }
+
+    @Override
+    public Setmeal findSetemalById(Integer id) {
+        return setmealDao.findSetmealById(id);
     }
 }

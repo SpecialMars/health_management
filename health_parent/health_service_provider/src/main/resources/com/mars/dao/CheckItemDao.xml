@@ -19,17 +19,23 @@
 
     <!--根据检查项Id查询统计数据量-->
     <select id="findCountByCheckItemId" parameterType="int" resultType="long">
-        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkItemId}
+        select count(*)
+        from t_checkgroup_checkitem
+        where checkitem_id = #{checkItemId}
     </select>
 
     <!--根据id删除检查项-->
     <delete id="deleteById" parameterType="int">
-        delete  from t_checkitem where id = #{id}
+        delete
+        from t_checkitem
+        where id = #{id}
     </delete>
 
     <!--根据id获取检查项-->
     <select id="findById" parameterType="int" resultType="com.mars.pojo.CheckItem">
-        select * from t_checkitem where id = #{id}
+        select *
+        from t_checkitem
+        where id = #{id}
     </select>
 
     <!--编辑检查项数据-->
@@ -66,6 +72,13 @@
 
     <!--查询所有检查项-->
     <select id="findAll" resultType="com.mars.pojo.CheckItem">
-        select * from t_checkitem
+        select *
+        from t_checkitem
+    </select>
+
+    <select id="findCheckItemById" resultType="com.mars.pojo.CheckItem">
+        select *
+        from t_checkitem
+        where id in (select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id})
     </select>
 </mapper>

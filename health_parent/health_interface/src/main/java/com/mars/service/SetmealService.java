@@ -27,4 +27,8 @@ public interface SetmealService {
     void edit(Setmeal setmeal, Integer[] checkGroupIds);
 
     void deleteById(Integer id);
+
+    List<Setmeal> getSetmeal();
+
+    Setmeal findSetemalById(Integer id);
 }

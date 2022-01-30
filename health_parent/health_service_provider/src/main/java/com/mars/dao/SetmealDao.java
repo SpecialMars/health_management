@@ -1,7 +1,6 @@
 package com.mars.dao;
 
 import com.github.pagehelper.Page;
-import com.mars.entity.QueryPageBean;
 import com.mars.pojo.Setmeal;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public interface SetmealDao {
 
     Setmeal findById(Integer id);
 
-    List<Integer> findCheckGroupIdsBysetmealId(Integer id);
+    List<Integer> findCheckGroupIdsBySetmealId(Integer id);
 
     void edit(Setmeal setmeal);
 
@@ -32,7 +31,11 @@ public interface SetmealDao {
 
     void setSetmealAndCheckGroups(Map<String, Integer> map);
 
-    void deleteCheckGroupBySetemalId(Integer id);
+    void deleteCheckGroupBySetmealId(Integer id);
 
     void deleteById(Integer id);
+
+    List<Setmeal> getSetmeal();
+
+    Setmeal findSetmealById(Integer id);
 }

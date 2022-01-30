@@ -30,7 +30,7 @@
         where id = #{id}
     </select>
 
-    <select id="findCheckGroupIdsBysetmealId" resultType="java.lang.Integer" parameterType="int">
+    <select id="findCheckGroupIdsBySetmealId" resultType="java.lang.Integer" parameterType="int">
         select checkgroup_id
         from t_setmeal_checkgroup
         where setmeal_id = #{id}
@@ -78,10 +78,10 @@
 
     <insert id="setSetmealAndCheckGroups" parameterType="java.util.Map">
         insert into t_setmeal_checkgroup(setmeal_id, checkgroup_id)
-        values (#{setmealId},#{checkgroupId})
+        values (#{setmealId}, #{checkgroupId})
     </insert>
 
-    <delete id="deleteCheckGroupBySetemalId" parameterType="int">
+    <delete id="deleteCheckGroupBySetmealId" parameterType="int">
         delete
         from t_setmeal_checkgroup
         where setmeal_id = #{id}
@@ -92,4 +92,41 @@
         from t_setmeal
         where id = #{id}
     </delete>
+
+    <select id="getSetmeal" resultType="com.mars.pojo.Setmeal">
+        select *
+        from t_setmeal
+    </select>
+
+    <resultMap id="baseResultMap" type="com.mars.pojo.Setmeal">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+
+    <resultMap id="findByIdResultMap" type="com.mars.pojo.Setmeal" extends="baseResultMap">
+        <!--进行多对多映射-->
+        <collection
+                property="checkGroups"
+                javaType="ArrayList"
+                ofType="com.mars.pojo.CheckGroup"
+                column="id"
+                select="com.mars.dao.CheckGroupDao.findCheckGroupById">
+        </collection>
+    </resultMap>
+
+    <!--需要查询三张表，套餐，套餐-检查组，检查组-检查项-->
+    <select id="findSetmealById" parameterType="int" resultMap="findByIdResultMap">
+        select *
+        from t_setmeal
+        where id = #{id}
+    </select>
+
 </mapper>
