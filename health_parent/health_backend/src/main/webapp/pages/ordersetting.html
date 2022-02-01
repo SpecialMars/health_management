@@ -201,6 +201,7 @@
                 }
                 console.log(response, file, fileList);
             },
+
             //初始化当前页要展示的日期
             initData: function (cur) {
                 var date;
@@ -271,11 +272,13 @@
                     }
                 });
             },
+
             //切换到当前月份
             goCurrentMonth: function (year, month) {
                 var d = new Date();
                 this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
             },
+
             //向前一个月
             pickPre: function (year, month) {
                 // setDate(0); 上月最后一天
@@ -285,12 +288,14 @@
                 d.setDate(0);
                 this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
             },
+
             //向后一个月
             pickNext: function (year, month) {
                 var d = new Date(this.formatDate(year, month, 1));
                 d.setDate(35);////获取指定天之后的日期
                 this.initData(this.formatDate(d.getFullYear(), d.getMonth() + 1, 1));
             },
+
             // 返回 类似 2016-01-02 格式的字符串
             formatDate: function (year, month, day) {
                 var y = year;

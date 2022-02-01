@@ -9,10 +9,18 @@ import com.mars.entity.PageResult;
 import com.mars.entity.QueryPageBean;
 import com.mars.pojo.Setmeal;
 import com.mars.service.SetmealService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +43,13 @@ public class SetmealServiceImpl implements SetmealService {
     @Autowired
     private JedisPool jedisPool;
 
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    // 从属性文件中读取要生成的html对应的目录
+    @Value("${out_put_path}")
+    private String outPutPath;
+
     @Override
     public void add(Setmeal setmeal, Integer[] checkgroupIds) {
         // 向t_setmeal表中添加套餐
@@ -47,6 +62,56 @@ public class SetmealServiceImpl implements SetmealService {
         if (setmeal.getImg() != null) {
             //将图片名称保存到Redis
             savePic2Redis(setmeal.getImg());
+        }
+        // 当添加套餐后需要重新生成动态页面（套餐列表）、（套餐详情）
+        generateMobileStaticHtml();
+    }
+
+    // 生成当前方法所需的静态页面
+    public void generateMobileStaticHtml() {
+        // 在生成静态页面之前需要查询数据（准备数据）
+        List<Setmeal> list = setmealDao.getSetmeal();
+        // 需要生成套餐列表静态页面
+        generateMobileSetmealListHtml(list);
+        // 需要生成套餐详情静态页面(多个)
+        generateMobileSetmealDetailHtml(list);
+    }
+
+    // 需要生成套餐列表静态页面
+    private void generateMobileSetmealListHtml(List<Setmeal> list) {
+        Map<String, List<Setmeal>> map = new HashMap<>();
+        map.put("setmealList", list);
+        generateHtml("mobile_setmeal.ftl","m_setmeal.html", map);
+    }
+
+    // 需要生成套餐详情静态页面(多个)
+    private void generateMobileSetmealDetailHtml(List<Setmeal> list) {
+        for (Setmeal setmeal : list) {
+            Map map = new HashMap();
+            // 使用联查才能获取到所有数据
+            map.put("setmeal", this.findSetemalById(setmeal.getId()));
+            generateHtml("mobile_setmeal_detail.ftl", "setmeal_detail_" + setmeal.getId() + ".html", map);
+        }
+    }
+
+    // 用于生成静态页面
+    public void generateHtml(String templateName, String htmlPageName, Map map) {
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        Writer out = null;
+        try {
+            Template template = configuration.getTemplate(templateName);
+            out = new FileWriter(new File(outPutPath + "/" + htmlPageName));
+            template.process(map, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null){
+                try {
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -105,12 +170,15 @@ public class SetmealServiceImpl implements SetmealService {
         }
         //
         setmealDao.edit(setmeal);
+        generateMobileStaticHtml();
+
     }
 
     @Override
     public void deleteById(Integer id) {
         setmealDao.deleteCheckGroupBySetmealId(id);
         setmealDao.deleteById(id);
+        generateMobileStaticHtml();
     }
 
     @Override

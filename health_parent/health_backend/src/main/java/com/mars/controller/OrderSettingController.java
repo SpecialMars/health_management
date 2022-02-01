@@ -37,6 +37,7 @@ public class OrderSettingController {
     public Result upload(@RequestParam("excelFile") MultipartFile excelFile) {
 
         try {
+            // 使用Apache POI工具类读取Excel中的信息
             List<String[]> list = POIUtils.readExcel(excelFile);
             // 将list中的数据类型转换为List<OrderSetting>
             List<OrderSetting> data = new ArrayList<>();
