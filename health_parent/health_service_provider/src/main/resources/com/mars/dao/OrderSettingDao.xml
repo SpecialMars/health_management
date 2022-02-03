@@ -26,4 +26,16 @@
         where orderDate between #{begin} and #{end}
     </select>
 
+    <select id="findByOrderDate" resultType="com.mars.pojo.OrderSetting" parameterType="date">
+        select *
+        from t_ordersetting
+        where orderDate = #{date}
+    </select>
+
+    <update id="editReservationsByOrderDate" parameterType="com.mars.pojo.OrderSetting">
+        update t_ordersetting
+        set reservations = #{reservations}
+        where orderDate = #{orderDate}
+    </update>
+
 </mapper>

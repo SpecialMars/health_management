@@ -44,7 +44,7 @@ function getSpecifiedDate(date,days) {
  3--最后以0-9的9个整数结尾。
  */
 function checkTelephone(telephone) {
-    var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
+    var reg=/^[1][1,2,3,4,5,6,7,8,9][0-9]{9}$/;
     if (!reg.test(telephone)) {
         return false;
     } else {
@@ -66,7 +66,7 @@ function checkIdCard(idCard){
 }
 
 var clock = '';//定时器对象，用于页面30秒倒计时效果
-var nums = 30;
+var nums = 60;
 var validateCodeButton;
 //基于定时器实现30秒倒计时效果
 function doLoop() {

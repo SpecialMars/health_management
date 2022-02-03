@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 体检预约信息
  */
-public class Order implements Serializable{
+public class Order implements Serializable {
     public static final String ORDERTYPE_TELEPHONE = "电话预约";
     public static final String ORDERTYPE_WEIXIN = "微信预约";
     public static final String ORDERSTATUS_YES = "已到诊";
@@ -39,6 +39,12 @@ public class Order implements Serializable{
         this.orderDate = orderDate;
         this.orderType = orderType;
         this.orderStatus = orderStatus;
+        this.setmealId = setmealId;
+    }
+
+    public Order(Integer memberId, Date order_date, Integer setmealId) {
+        this.memberId = memberId;
+        this.orderDate = order_date;
         this.setmealId = setmealId;
     }
 
