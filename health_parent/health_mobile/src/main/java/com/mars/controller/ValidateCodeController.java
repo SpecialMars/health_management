@@ -44,4 +44,24 @@ public class ValidateCodeController {
 
         return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
     }
+
+
+    @RequestMapping("/send4Login")
+    public Result send4Login(String telephone) {
+        // 生成验证码
+        Integer validateCode = ValidateCodeUtils.generateValidateCode(6);
+
+        // 发送验证码
+        try {
+            SMSUtils.sendCode(telephone, "+86", validateCode.toString(), 1294819);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
+        }
+
+        // 将验证码缓存到redis（10分钟）
+        jedisPool.getResource().setex(telephone + RedisMessageConstant.SENDTYPE_LOGIN, 600, validateCode.toString());
+
+        return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
+    }
 }
