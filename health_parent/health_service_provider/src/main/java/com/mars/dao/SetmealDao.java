@@ -38,4 +38,6 @@ public interface SetmealDao {
     List<Setmeal> getSetmeal();
 
     Setmeal findSetmealById(Integer id);
+
+    List<Map<String, Object>> findSetmealCount();
 }

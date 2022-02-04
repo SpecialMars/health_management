@@ -89,7 +89,7 @@ public class SetmealServiceImpl implements SetmealService {
         for (Setmeal setmeal : list) {
             Map map = new HashMap();
             // 使用联查才能获取到所有数据
-            map.put("setmeal", this.findSetemalById(setmeal.getId()));
+            map.put("setmeal", this.findSetmealById(setmeal.getId()));
             generateHtml("mobile_setmeal_detail.ftl", "setmeal_detail_" + setmeal.getId() + ".html", map);
         }
     }
@@ -187,7 +187,13 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
-    public Setmeal findSetemalById(Integer id) {
+    public Setmeal findSetmealById(Integer id) {
         return setmealDao.findSetmealById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+
+        return setmealDao.findSetmealCount();
     }
 }

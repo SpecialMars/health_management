@@ -40,7 +40,7 @@ public class SetmealController {
     public Result findById(Integer id){
 
         try {
-            Setmeal setmeal = setmealService.findSetemalById(id);
+            Setmeal setmeal = setmealService.findSetmealById(id);
             return new Result(true,MessageConstant.GET_SETMEAL_LIST_SUCCESS,setmeal);
         } catch (Exception e) {
             e.printStackTrace();

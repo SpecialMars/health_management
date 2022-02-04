@@ -5,6 +5,7 @@ import com.mars.entity.QueryPageBean;
 import com.mars.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ClassName:SetmealService
@@ -30,5 +31,7 @@ public interface SetmealService {
 
     List<Setmeal> getSetmeal();
 
-    Setmeal findSetemalById(Integer id);
+    Setmeal findSetmealById(Integer id);
+
+    List<Map<String, Object>> findSetmealCount();
 }
