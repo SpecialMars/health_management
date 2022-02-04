@@ -119,10 +119,10 @@ html,body {
   
 }
 .logoInfo .logo{
-	background: url(../img/loginLogo.png) no-repeat;
+	background: url(../img/Marslogo3.png) no-repeat;
 	display:inline-block;
-	width: 200px;
-	height: 30px;
+	width: 300px;
+	height: 40px;
   display: inline-block;
   vertical-align: middle;
 }

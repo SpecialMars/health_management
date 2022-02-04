@@ -2,6 +2,8 @@ package com.mars.service;
 
 import com.mars.pojo.Member;
 
+import java.util.List;
+
 /**
  * ClassName:MemberService
  * Package:com.mars.service
@@ -15,4 +17,6 @@ public interface MemberService {
     Member findByTelephone(String telephone);
 
     void add(Member member);
+
+    List<Integer> findMemberCountByMonths(List<String> months);
 }

@@ -7,6 +7,7 @@ import com.mars.entity.QueryPageBean;
 import com.mars.entity.Result;
 import com.mars.pojo.CheckItem;
 import com.mars.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,6 +69,7 @@ public class CheckItemController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyAuthority('CHECKITEM_DELETE')") // 权限校验
     @RequestMapping("/delete")
     public Result delete(Integer id) {
         try {

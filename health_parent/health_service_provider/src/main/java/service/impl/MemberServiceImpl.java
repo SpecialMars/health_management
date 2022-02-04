@@ -8,6 +8,9 @@ import com.mars.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ClassName:MemberServiceImpl
  * Package:service.impl
@@ -37,5 +40,16 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(password);
         }
         memberDao.add(member);
+    }
+
+    @Override
+    public List<Integer> findMemberCountByMonths(List<String> months) { // 2020.2
+        List<Integer> memberCount = new ArrayList<>();
+        for (String month : months) {
+            month = month + ".31";
+            Integer memberCountBeforeDate = memberDao.findMemberCountBeforeDate(month);
+            memberCount.add(memberCountBeforeDate);
+        }
+        return memberCount;
     }
 }

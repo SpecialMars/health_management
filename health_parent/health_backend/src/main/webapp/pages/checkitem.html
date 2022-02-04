@@ -234,6 +234,17 @@
             this.findPage(); // VUE对象初始化完成后调用分页查询方法，完成分页查询
         },
         methods: {
+            //权限不足提示
+            showMessage(r) {
+                if (r == 'Error: Request failed with status code 403') {
+                    //权限不足
+                    this.$message.error('无访问权限');
+                    return;
+                } else {
+                    this.$message.error('未知错误');
+                    return;
+                }
+            },
 
             // 编辑表单中的确定按钮
             handleEdit() {
@@ -241,7 +252,7 @@
                 this.$refs['dataEditForm'].validate((valid) => {
                     if (valid) {
                         // 表单验证通过，执行ajax请求
-                        axios.post("/checkitem/edit.do",this.formData).then((res) => {
+                        axios.post("/checkitem/edit.do", this.formData).then((res) => {
                             //隐藏编辑窗口
                             this.dialogFormVisible4Edit = false;
 
@@ -372,6 +383,8 @@
                             // 弹出删除失败信息
                             this.$message.error(res.data.message);
                         }
+                    }).catch((r) => {
+                        this.showMessage(r);
                     });
                 }).catch(() => {
                     this.$message({
